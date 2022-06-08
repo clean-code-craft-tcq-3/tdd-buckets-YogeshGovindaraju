@@ -1,61 +1,91 @@
 #include "ChargingCurrent.h"
 #include "TestChargingCurrent.h"
 
-std::string classifyChargingCurrentRange(std::vector<int> currentSamples)
+std::string ChargingCurrent::classifyChargingCurrentRange(std::vector<int> currentSamples)
 {
-    std::stringstream result;
-    std::vector<int> minimumValue;
-    std::vector<int> maximumValue;
-    std::vector<int> numberOfReadings;
-    int incrementValue = 0;
-    int currentValue = 0;
-    size_t index = 0;
-    int i = 0;
-    size_t j = 0;
-    while(index < currentSamples.size())
+    clearAllValues();
+    updateCurrentRangeValues(currentSamples);
+    updateResult();
+    return result.str();
+}
+
+void ChargingCurrent::clearAllValues()
+{
+    result.str("");
+    startingValue.clear();
+    endingValue.clear();
+    numberOfReadings.clear();
+    incrementValue = 0;
+    presentValue = 0;
+    samplesIndex = 0;
+    readingsIndex = 0;
+    rangeIndex = 0;
+}
+
+void ChargingCurrent::updateCurrentRangeValues(std::vector<int> currentSamples)
+{
+    while(samplesIndex < currentSamples.size())
     {
-        minimumValue.push_back(currentSamples.at(index));
-        maximumValue.push_back(currentSamples.at(index));
+        startingValue.push_back(currentSamples.at(samplesIndex));
+        endingValue.push_back(currentSamples.at(samplesIndex));
         numberOfReadings.push_back(0);
         incrementValue = 1;
-        currentValue = currentSamples.at(index);
-        for(j=index; j<currentSamples.size(); j++)
+        presentValue = currentSamples.at(samplesIndex);
+        updateCurrentReadingsRange(currentSamples);
+        if(rangeIndex == currentSamples.size())
         {
-            if(currentValue == currentSamples.at(j))
-            {
-                numberOfReadings.at(i)++;
-            }
-            else if (currentValue+incrementValue == currentSamples.at(j))
-            {
-                currentValue += incrementValue;
-                numberOfReadings.at(i)++;
-            }
-            else
-            {
-                maximumValue.at(i) = currentValue;
-                break;
-            }
-            if(j+1 == currentSamples.size())
-            {
-                maximumValue.at(i) = currentValue;
-            }
+            endingValue.at(readingsIndex) = presentValue;
         }
-        index = j;
-        i++;
+        samplesIndex = rangeIndex;
+        readingsIndex++;
     }
-    if(minimumValue.size() != 0)
+}
+
+void ChargingCurrent::updateCurrentReadingsRange(std::vector<int> currentSamples)
+{
+    for(rangeIndex=samplesIndex; rangeIndex<currentSamples.size(); rangeIndex++)
+    {
+        if(isValueWithinRange(currentSamples))
+        {
+            numberOfReadings.at(readingsIndex)++;
+        }
+        else
+        {
+            endingValue.at(readingsIndex) = presentValue;
+            break;
+        }
+    }
+}
+
+bool ChargingCurrent::isValueWithinRange(std::vector<int> currentSamples)
+{
+    bool returnValue = false;
+    if(presentValue == currentSamples.at(rangeIndex))
+    {
+        returnValue = true;
+    }
+    else if (presentValue+incrementValue == currentSamples.at(rangeIndex))
+    {
+        presentValue += incrementValue;
+        returnValue = true;
+    }
+    return returnValue;
+}
+
+void ChargingCurrent::updateResult()
+{
+    if(startingValue.size() != 0)
     {
         result << "Range, Readings";
-        for(size_t k=0; k<minimumValue.size(); k++)
+        for(size_t k=0; k<startingValue.size(); k++)
         {
-            result << "\n" << minimumValue.at(k) << "-" << maximumValue.at(k) << ", " << numberOfReadings.at(k);
+            result << "\n" << startingValue.at(k) << "-" << endingValue.at(k) << ", " << numberOfReadings.at(k);
         }
     }
     else
     {
         result << "No Current Samples are given!!!";
     }
-    return result.str();
 }
 
 int main()
