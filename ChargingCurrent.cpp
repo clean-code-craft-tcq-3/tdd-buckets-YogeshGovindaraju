@@ -4,6 +4,7 @@
 std::string ChargingCurrent::classifyChargingCurrentRange(std::vector<int> currentSamples)
 {
     clearAllValues();
+    sort(currentSamples.begin(), currentSamples.end());
     updateCurrentRangeValues(currentSamples);
     updateResult();
     return result.str();
@@ -76,7 +77,7 @@ void ChargingCurrent::updateResult()
 {
     if(startingValue.size() != 0)
     {
-        result << "Range, Readings";
+        result << "\nRange, Readings";
         for(size_t k=0; k<startingValue.size(); k++)
         {
             result << "\n" << startingValue.at(k) << "-" << endingValue.at(k) << ", " << numberOfReadings.at(k);
@@ -84,7 +85,7 @@ void ChargingCurrent::updateResult()
     }
     else
     {
-        result << "No Current Samples are given!!!";
+        result << "\nNo Current Samples are given!!!";
     }
 }
 
