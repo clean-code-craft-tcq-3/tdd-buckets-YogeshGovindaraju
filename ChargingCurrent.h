@@ -6,4 +6,6 @@
 #include <sstream>
 #include <string>
 
+std::string classifyChargingCurrentRange(std::vector<int> currentSamples);
+
 #endif
