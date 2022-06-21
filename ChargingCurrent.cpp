@@ -13,9 +13,9 @@ std::string ChargingCurrent::classifyChargingCurrentRange(std::vector<int> curre
 void ChargingCurrent::clearAllValues()
 {
     result.str("");
-    startingValue.clear();
-    endingValue.clear();
-    numberOfReadings.clear();
+    chargingCurrentReadings.startingValue.clear();
+    chargingCurrentReadings.endingValue.clear();
+    chargingCurrentReadings.numberOfReadings.clear();
     incrementValue = 0;
     presentValue = 0;
     samplesIndex = 0;
@@ -27,15 +27,15 @@ void ChargingCurrent::updateCurrentRangeValues(std::vector<int> currentSamples)
 {
     while(samplesIndex < currentSamples.size())
     {
-        startingValue.push_back(currentSamples.at(samplesIndex));
-        endingValue.push_back(currentSamples.at(samplesIndex));
-        numberOfReadings.push_back(0);
+        chargingCurrentReadings.startingValue.push_back(currentSamples.at(samplesIndex));
+        chargingCurrentReadings.endingValue.push_back(currentSamples.at(samplesIndex));
+        chargingCurrentReadings.numberOfReadings.push_back(0);
         incrementValue = 1;
         presentValue = currentSamples.at(samplesIndex);
         updateCurrentReadingsRange(currentSamples);
         if(rangeIndex == currentSamples.size())
         {
-            endingValue.at(readingsIndex) = presentValue;
+            chargingCurrentReadings.endingValue.at(readingsIndex) = presentValue;
         }
         samplesIndex = rangeIndex;
         readingsIndex++;
@@ -48,11 +48,11 @@ void ChargingCurrent::updateCurrentReadingsRange(std::vector<int> currentSamples
     {
         if(isValueWithinRange(currentSamples))
         {
-            numberOfReadings.at(readingsIndex)++;
+            chargingCurrentReadings.numberOfReadings.at(readingsIndex)++;
         }
         else
         {
-            endingValue.at(readingsIndex) = presentValue;
+            chargingCurrentReadings.endingValue.at(readingsIndex) = presentValue;
             break;
         }
     }
@@ -75,12 +75,12 @@ bool ChargingCurrent::isValueWithinRange(std::vector<int> currentSamples)
 
 void ChargingCurrent::updateResult()
 {
-    if(startingValue.size() != 0)
+    if(chargingCurrentReadings.startingValue.size() != 0)
     {
         result << "\nRange, Readings";
-        for(size_t k=0; k<startingValue.size(); k++)
+        for(size_t k=0; k<chargingCurrentReadings.startingValue.size(); k++)
         {
-            result << "\n" << startingValue.at(k) << "-" << endingValue.at(k) << ", " << numberOfReadings.at(k);
+            result << "\n" << chargingCurrentReadings.startingValue.at(k) << "-" << chargingCurrentReadings.endingValue.at(k) << ", " << chargingCurrentReadings.numberOfReadings.at(k);
         }
     }
     else
