@@ -2,6 +2,7 @@
 #include <assert.h>
 #include "ChargingCurrent.h"
 #include "CurrentSensor.h"
+#include "ChargingCurrentSensor.h"
 #include "TestChargingCurrent.h"
 #include "TestCurrentSensor.h"
 #include "TestChargingCurrentSensor.h"
