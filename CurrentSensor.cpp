@@ -10,19 +10,25 @@ CurrentSensor::CurrentSensor(int lowerRange, int upperRange, int numberOfBits)
 
 int CurrentSensor::convertA2DReadingToCurrent(int A2DConverterReading)
 {
-    int currentSensorReading = round((float)totalCurrentRange*A2DConverterReading/maximumA2DConverterReading);
-    currentSensorReading = std::abs(lowerCurrentSensorRange + currentSensorReading);
+    int currentSensorReading = INVALID;
+    if((A2DConverterReading >= minimumA2DConverterReading) && (A2DConverterReading <= maximumA2DConverterReading))
+    {
+        currentSensorReading = round((float)totalCurrentRange*A2DConverterReading/maximumA2DConverterReading);
+        currentSensorReading = std::abs(lowerCurrentSensorRange + currentSensorReading);
+    }
     return currentSensorReading;
 }
 
 std::vector<int> CurrentSensor::calculateCurrentFromA2DConverterReadings(std::vector<int> A2DConverterReadings)
 {
     std::vector<int> currentSensorReadings;
+    int currentSensorReading = 0;
     for(size_t i=0; i<A2DConverterReadings.size(); i++)
     {
-        if((A2DConverterReadings.at(i) >= minimumA2DConverterReading) && (A2DConverterReadings.at(i) <= maximumA2DConverterReading))
+        currentSensorReading = convertA2DReadingToCurrent(A2DConverterReadings.at(i));
+        if(currentSensorReading != INVALID)
         {
-            currentSensorReadings.push_back(convertA2DReadingToCurrent(A2DConverterReadings.at(i)));
+            currentSensorReadings.push_back(currentSensorReading);
         }
     }
     return currentSensorReadings;

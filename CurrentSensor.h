@@ -5,6 +5,8 @@
 #include <cmath>
 #include <bits/stdc++.h>
 
+#define INVALID -1
+
 class CurrentSensor
 {
     int lowerCurrentSensorRange;
