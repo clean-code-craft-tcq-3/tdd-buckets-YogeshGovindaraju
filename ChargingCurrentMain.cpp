@@ -12,5 +12,6 @@ int main()
     testChargingCurrent();
     test12BitCurrentSensor();
     test12BitChargingCurrentSensor();
+    test10BitCurrentSensor();
     return 0;
 }
