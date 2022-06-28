@@ -42,8 +42,8 @@ void test12BitCurrentSensor()
 
 void testForEmpty10BitA2DConverterReadings(CurrentSensor &currentSensor, std::vector<int> &A2DConverterReadings, std::vector<int> &currentSensorReadings)
 {
-    A2DConverterReadings = {};
     currentSensorReadings = {};
+    A2DConverterReadings = {};
     assert(currentSensor.calculateCurrentFromA2DConverterReadings(A2DConverterReadings) == currentSensorReadings);
 }
 
