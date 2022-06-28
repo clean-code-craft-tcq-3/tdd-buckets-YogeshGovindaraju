@@ -7,5 +7,6 @@ ChargingCurrentSensor::ChargingCurrentSensor(int lowerRange, int upperRange, int
 
 std::string ChargingCurrentSensor::classifyCurrentRangeFromSensorReadings(std::vector<int> A2DConverterReadings)
 {
-    return "";
+    std::vector<int> currentSensorReadings = calculateCurrentFromA2DConverterReadings(A2DConverterReadings);
+    return classifyChargingCurrentRange(currentSensorReadings);
 }
