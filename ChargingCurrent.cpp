@@ -1,5 +1,10 @@
 #include "ChargingCurrent.h"
 
+ChargingCurrent::ChargingCurrent()
+{
+    clearAllValues();
+}
+
 std::string ChargingCurrent::classifyChargingCurrentRange(std::vector<int> currentSamples)
 {
     clearAllValues();

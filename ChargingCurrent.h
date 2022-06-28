@@ -24,11 +24,7 @@ class ChargingCurrent
     void updateResult();
     
     public:
-    ChargingCurrent()
-    {
-        clearAllValues();
-    }
-    
+    ChargingCurrent();
     std::string classifyChargingCurrentRange(std::vector<int> currentSamples);
 };
 
