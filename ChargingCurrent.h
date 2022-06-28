@@ -1,22 +1,16 @@
 #ifndef CHARGINGCURRENT
 #define CHARGINGCURRENT
 
-#include <iostream>
 #include <vector>
 #include <sstream>
 #include <string>
 #include <bits/stdc++.h>
 
-struct ChargingCurrentReadings
+class ChargingCurrent
 {
     std::vector<int> startingValue;
     std::vector<int> endingValue;
     std::vector<int> numberOfReadings;
-};
-
-class ChargingCurrent
-{
-    ChargingCurrentReadings chargingCurrentReadings;
     std::stringstream result;
     int incrementValue;
     int presentValue;

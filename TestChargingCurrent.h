@@ -1,8 +1,6 @@
 #ifndef TESTCHARGINGCURRENT
 #define TESTCHARGINGCURRENT
 
-#include <assert.h>
-
 void testForEmptyCurrentSample(ChargingCurrent &chargingCurrent, std::vector<int> &currentSamples, std::stringstream &expectedOutput)
 {
     currentSamples = {};
